@@ -24,13 +24,15 @@ export default async function onRequest(context) {
 </head>
 <body>
   <h1>📷 图片 API 服务</h1>
-  <p>提供 <strong>随机图像</strong> 和 <strong>每日图像</strong> 接口。</p>
+  <p>提供 <strong>随机图像</strong>、<strong>今日图像</strong> 和历史日期图像接口。</p>
 
   <div class="endpoint">
     <h2>/api/random</h2>
     <ul>
       <li><code>${base}/api/random</code> → 随机图片（默认 <strong>不重定向</strong>）</li>
       <li><code>${base}/api/random?redirect=true</code> → 随机图片（使用重定向）</li>
+      <li><code>${base}/api/random?format=jpeg</code> → 随机压缩 JPEG</li>
+      <li><code>${base}/api/random?format=original</code> → 随机原始 JPEG</li>
     </ul>
   </div>
 
@@ -41,6 +43,8 @@ export default async function onRequest(context) {
       <li><code>${base}/api/daily?format=jpeg</code> → 压缩 JPEG</li>
       <li><code>${base}/api/daily?format=original</code> → 原始 JPEG</li>
       <li><code>${base}/api/daily?redirect=true</code> → 今日图像（使用重定向）</li>
+      <li><code>${base}/api/daily?date=YYYY-MM-DD&amp;format=jpeg</code> → 指定日期的压缩 JPEG</li>
+      <li><code>${base}/api/daily?date=YYYY-MM-DD&amp;format=original</code> → 指定日期的原始 JPEG</li>
     </ul>
   </div>
 

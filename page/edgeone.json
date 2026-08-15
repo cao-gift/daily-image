@@ -16,11 +16,15 @@
       "cacheTtl": 18000
     },
     {
-      "source": "/origin.jpeg",
+      "source": "/original.jpeg",
       "cacheTtl": 18000
     },
     {
       "source": "/picture/*.webp",
+      "cacheTtl": 864000
+    },
+    {
+      "source": "/picture/*.jpeg",
       "cacheTtl": 864000
     }
   ],

@@ -4,7 +4,7 @@
   <img src="https://raw.githubusercontent.com/willow-god/daily-image/refs/heads/page/daily.webp" alt="Daily Bing Wallpaper" width="600" />
 </p>
 
-这是一个基于 GitHub Actions 自动获取并展示 Bing 每日高清壁纸的项目。每天早上 6 点（中国时间）自动抓取最新壁纸，生成 WebP/JPEG 格式图片，维护最近 30 天的壁纸，并发布至 `page` 分支，用于 Pages 服务部署并展示。
+这是一个基于 GitHub Actions 自动获取并展示 Bing 每日高清壁纸的项目。每天北京时间 1 点和 13 点自动抓取最新壁纸，生成 WebP/JPEG 格式图片，维护最近 30 天的壁纸，并发布至 `page` 分支，用于 Pages 服务部署并展示。
 
 **推荐使用 EO Pages 服务部署，目前已支持随机图 API 功能。**
 
@@ -28,7 +28,9 @@
 │   ├── daily.jpeg            # 今日壁纸 JPEG 压缩版
 │   ├── original.jpeg         # 今日壁纸原图（最高画质）
 │   ├── picture/
-│   │   ├── YYYY-MM-DD.webp   # 各日期壁纸
+│   │   ├── YYYY-MM-DD.webp          # 各日期 WebP 壁纸
+│   │   ├── YYYY-MM-DD.jpeg          # 各日期压缩 JPEG
+│   │   ├── YYYY-MM-DD-original.jpeg # 各日期原始 JPEG
 │   └── picture/index.json    # 壁纸信息索引
 ├── page/
 │   ├── index.html            # 网页展示模板
@@ -44,7 +46,7 @@
 
 通过 GitHub Actions 实现每日定时更新：
 
-- 使用 `cron: '0 20 * * *'`（UTC 时间），即北京时间早上 6 点。
+- 使用 `cron: '0 17 * * *'` 和 `cron: '0 5 * * *'`（UTC 时间），即北京时间每天 1 点和 13 点。
 - 运行 `main.py` 获取并保存壁纸。
 - 将图片和网页内容推送到 `page` 分支。
 - 使用 GitHub Pages 公开展示（`https://willow-god.github.io/daily-image/`）。
@@ -61,10 +63,13 @@
 
 1. **随机图 API**：
    - 访问 `https://bing.liushen.fun/api/random` 获取随机壁纸。
+   - 使用 `?format=jpeg` 获取随机压缩 JPEG，使用 `?format=original` 获取随机原始 JPEG。
    - 可在网页中直接使用，如：`<img src="https://bing.liushen.fun/api/random" alt="随机壁纸" />`。
 
 2. **每日一图 API**：
    - 访问 `https://bing.liushen.fun/api/daily` 或者 `https://bing.liushen.fun/daily.webp` 获取今日壁纸。
+   - 使用 `?date=YYYY-MM-DD&format=jpeg` 获取指定日期的压缩 JPEG。
+   - 使用 `?date=YYYY-MM-DD&format=original` 获取指定日期的原始 JPEG。
    - 可在网页中直接使用，如：`<img src="https://bing.liushen.fun/api/daily" alt="今日壁纸" />`。
 
 更多参数欢迎访问地址：[https://bing.liushen.fun/api](https://bing.liushen.fun/api) 进行查询。

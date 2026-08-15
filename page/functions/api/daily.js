@@ -4,6 +4,7 @@ export default async function onRequest(context) {
 
   // 处理参数
   const format = url.searchParams.get("format") || "webp";
+  const date = url.searchParams.get("date");
   const redirect = url.searchParams.get("redirect") === "true";
 
   // 验证参数
@@ -11,13 +12,25 @@ export default async function onRequest(context) {
   if (!allowedFormats.includes(format)) {
     return new Response("Invalid format parameter", { status: 400 });
   }
+  if (date && !/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+    return new Response("Invalid date parameter, expected YYYY-MM-DD", { status: 400 });
+  }
 
-  // 确定图片路径
-  const imagePath = format === "jpeg" 
-    ? "/daily.jpeg" 
-    : format === "original" 
-      ? "/original.jpeg" 
-      : "/daily.webp";
+  // 未指定日期时保持今日图片接口兼容；指定日期时读取历史图片。
+  let imagePath;
+  if (date) {
+    imagePath = format === "jpeg"
+      ? `/picture/${date}.jpeg`
+      : format === "original"
+        ? `/picture/${date}-original.jpeg`
+        : `/picture/${date}.webp`;
+  } else {
+    imagePath = format === "jpeg"
+      ? "/daily.jpeg"
+      : format === "original"
+        ? "/original.jpeg"
+        : "/daily.webp";
+  }
 
   // 构造目标 URL
   const imageUrl = new URL(request.url);
@@ -35,14 +48,15 @@ export default async function onRequest(context) {
   if (!originResponse.ok) {
     originResponse = await fetch(imageUrl.toString());
     if (!originResponse.ok) {
-      return new Response("Origin fetch failed", { status: 502 });
+      const status = originResponse.status === 404 ? 404 : 502;
+      return new Response(date ? "Image not found for requested date" : "Origin fetch failed", { status });
     }
   }
 
   // 返回响应（复制 headers + body）
   const response = new Response(originResponse.body, originResponse);
   response.headers.set("bing-cache", originResponse.redirected ? "BYPASS" : "EDGEONE");
-  response.headers.set("Cache-Control", "public, max-age=10800");
+  response.headers.set("Cache-Control", date ? "public, max-age=864000" : "public, max-age=10800");
 
   return response;
 }
