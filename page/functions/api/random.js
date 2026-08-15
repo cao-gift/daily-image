@@ -1,10 +1,10 @@
 export default async function onRequest(context) {
   const { request } = context;
   const url = new URL(request.url);
-  const format = url.searchParams.get("format") || "webp";
+  const format = url.searchParams.get("format");
 
-  if (!["webp", "jpeg", "original"].includes(format)) {
-    return new Response("Invalid format parameter", { status: 400 });
+  if (format && format !== "webp") {
+    return new Response("Random images are available in WebP only", { status: 400 });
   }
 
   // 从当前请求的域名拼接 JSON 地址
@@ -32,11 +32,7 @@ export default async function onRequest(context) {
   const randomImage = images[Math.floor(Math.random() * images.length)];
   const redirect = url.searchParams.get("redirect") === "true";
 
-  const imagePath = format === "jpeg"
-    ? (randomImage.jpeg_path || `/picture/${randomImage.date}.jpeg`)
-    : format === "original"
-      ? (randomImage.original_path || `/picture/${randomImage.date}-original.jpeg`)
-      : randomImage.path;
+  const imagePath = randomImage.path;
   const imageUrl = new URL(imagePath, request.url);
 
   if (redirect) {
@@ -52,7 +48,7 @@ export default async function onRequest(context) {
 
   return new Response(resp.body, {
     headers: {
-      "Content-Type": resp.headers.get("Content-Type") || (format === "webp" ? "image/webp" : "image/jpeg"),
+      "Content-Type": resp.headers.get("Content-Type") || "image/webp",
       "Cache-Control": "public, max-age=10800", // 浏览器缓存 3 小时
       "bing-cache": "EO-FETCH", // 标识 EO fetch 命中
     },

@@ -26,11 +26,8 @@
 ├── static/
 │   ├── daily.webp            # 今日壁纸（用于网页展示）
 │   ├── daily.jpeg            # 今日壁纸 JPEG 压缩版
-│   ├── original.jpeg         # 今日壁纸原图（最高画质）
 │   ├── picture/
-│   │   ├── YYYY-MM-DD.webp          # 各日期 WebP 壁纸
-│   │   ├── YYYY-MM-DD.jpeg          # 各日期压缩 JPEG
-│   │   ├── YYYY-MM-DD-original.jpeg # 各日期原始 JPEG
+│   │   ├── YYYY-MM-DD.webp   # 各日期 WebP 壁纸
 │   └── picture/index.json    # 壁纸信息索引
 ├── page/
 │   ├── index.html            # 网页展示模板
@@ -63,13 +60,12 @@
 
 1. **随机图 API**：
    - 访问 `https://bing.liushen.fun/api/random` 获取随机壁纸。
-   - 使用 `?format=jpeg` 获取随机压缩 JPEG，使用 `?format=original` 获取随机原始 JPEG。
    - 可在网页中直接使用，如：`<img src="https://bing.liushen.fun/api/random" alt="随机壁纸" />`。
 
 2. **每日一图 API**：
    - 访问 `https://bing.liushen.fun/api/daily` 或者 `https://bing.liushen.fun/daily.webp` 获取今日壁纸。
-   - 使用 `?date=YYYY-MM-DD&format=jpeg` 获取指定日期的压缩 JPEG。
-   - 使用 `?date=YYYY-MM-DD&format=original` 获取指定日期的原始 JPEG。
+   - 使用 `?format=jpeg` 获取今日压缩 JPEG。
+   - 使用 `?date=YYYY-MM-DD` 获取指定日期的 WebP。
    - 可在网页中直接使用，如：`<img src="https://bing.liushen.fun/api/daily" alt="今日壁纸" />`。
 
 更多参数欢迎访问地址：[https://bing.liushen.fun/api](https://bing.liushen.fun/api) 进行查询。

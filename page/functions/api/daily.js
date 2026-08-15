@@ -8,28 +8,25 @@ export default async function onRequest(context) {
   const redirect = url.searchParams.get("redirect") === "true";
 
   // 验证参数
-  const allowedFormats = ["webp", "jpeg", "original"];
+  const allowedFormats = ["webp", "jpeg"];
   if (!allowedFormats.includes(format)) {
     return new Response("Invalid format parameter", { status: 400 });
   }
   if (date && !/^\d{4}-\d{2}-\d{2}$/.test(date)) {
     return new Response("Invalid date parameter, expected YYYY-MM-DD", { status: 400 });
   }
+  if (date && format === "jpeg") {
+    return new Response("Historical JPEG is unavailable; use WebP for dated images", { status: 400 });
+  }
 
   // 未指定日期时保持今日图片接口兼容；指定日期时读取历史图片。
   let imagePath;
   if (date) {
-    imagePath = format === "jpeg"
-      ? `/picture/${date}.jpeg`
-      : format === "original"
-        ? `/picture/${date}-original.jpeg`
-        : `/picture/${date}.webp`;
+    imagePath = `/picture/${date}.webp`;
   } else {
     imagePath = format === "jpeg"
       ? "/daily.jpeg"
-      : format === "original"
-        ? "/original.jpeg"
-        : "/daily.webp";
+      : "/daily.webp";
   }
 
   // 构造目标 URL

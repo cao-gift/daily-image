@@ -31,8 +31,6 @@ export default async function onRequest(context) {
     <ul>
       <li><code>${base}/api/random</code> → 随机图片（默认 <strong>不重定向</strong>）</li>
       <li><code>${base}/api/random?redirect=true</code> → 随机图片（使用重定向）</li>
-      <li><code>${base}/api/random?format=jpeg</code> → 随机压缩 JPEG</li>
-      <li><code>${base}/api/random?format=original</code> → 随机原始 JPEG</li>
     </ul>
   </div>
 
@@ -41,10 +39,8 @@ export default async function onRequest(context) {
     <ul>
       <li><code>${base}/api/daily</code> → 今日图像（默认 WebP，不重定向）</li>
       <li><code>${base}/api/daily?format=jpeg</code> → 压缩 JPEG</li>
-      <li><code>${base}/api/daily?format=original</code> → 原始 JPEG</li>
       <li><code>${base}/api/daily?redirect=true</code> → 今日图像（使用重定向）</li>
-      <li><code>${base}/api/daily?date=YYYY-MM-DD&amp;format=jpeg</code> → 指定日期的压缩 JPEG</li>
-      <li><code>${base}/api/daily?date=YYYY-MM-DD&amp;format=original</code> → 指定日期的原始 JPEG</li>
+      <li><code>${base}/api/daily?date=YYYY-MM-DD</code> → 指定日期的 WebP</li>
     </ul>
   </div>
 
