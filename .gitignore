@@ -175,3 +175,8 @@ cython_debug/
 
 static/
 staticaaa/
+# Tencent Cloud EdgeOne
+.env
+.edgeone/*
+.tef_dist/*
+  
