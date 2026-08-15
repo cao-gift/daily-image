@@ -2,8 +2,9 @@ name: Daily Get Bing Image
 
 on:
   schedule:
-    # 设置时区为中国时区 (UTC+8)，每天中午12点运行
-    - cron: "0 4 * * *"
+    # GitHub Actions 使用 UTC：北京时间每天 01:00 和 13:00
+    - cron: "0 17 * * *"
+    - cron: "0 5 * * *"
   workflow_dispatch:
 
 env:
@@ -12,6 +13,9 @@ env:
 jobs:
   get_bing_image:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: write
 
     steps:
     - name: Pull latest repository
@@ -69,8 +73,7 @@ jobs:
     - name: Delete Workflow Runs
       uses: Mattraks/delete-workflow-runs@v2
       with:
-        retain_days: 30
-        keep_minimum_runs: 6
+        retain_days: 7
 
   keepalive-workflow:
     name: Keepalive Workflow
